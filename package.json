@@ -1,0 +1,22 @@
+{
+  "name": "atom-todos",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["frontend", "functions"],
+  "scripts": {
+    "install:all": "npm install -ws",
+    "dev:frontend": "npm --workspace frontend run start",
+    "build:frontend": "npm --workspace frontend run build",
+    "serve:functions": "npm --workspace functions run serve",
+    "deploy": "firebase deploy --only functions,hosting",
+    "dev": "npm-run-all --parallel dev:frontend serve:functions",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "keywords": ["angular17", "firebase-hosting", "firebase-functions", "typescript", "todos-app", "monorepo"],
+  "author": "Edwin Einsen Vásquez Velásquez",
+  "license": "UNLICENSED",
+  "description": "Monorepo Angular 17 + Firebase Functions for Atom Todos challenge"
+}
