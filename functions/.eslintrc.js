@@ -1,33 +1,48 @@
+/* functions/.eslintrc.js */
 module.exports = {
   root: true,
-  env: {
-    es6: true,
-    node: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "google",
-    "plugin:@typescript-eslint/recommended",
-  ],
+  env: { es6: true, node: true },
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: ["tsconfig.json", "tsconfig.dev.json"],
+    tsconfigRootDir: __dirname,
     sourceType: "module",
   },
-  ignorePatterns: [
-    "/lib/**/*", // Ignore built files.
-    "/generated/**/*", // Ignore generated files.
+  plugins: ["@typescript-eslint", "import"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
   ],
-  plugins: [
-    "@typescript-eslint",
-    "import",
+  ignorePatterns: [
+    "lib/**",
+    "generated/**",
+    "node_modules/**",
   ],
   rules: {
-    "quotes": ["error", "double"],
-    "import/no-unresolved": 0,
-    "indent": ["error", 2],
+    "quotes": ["error", "double", { avoidEscape: true }],
+    "semi": ["error", "always"],
+    "indent": ["error", 2, { SwitchCase: 1 }],
+    "object-curly-spacing": ["error", "always"],
+    "max-len": ["error", { code: 120, ignoreUrls: true, ignoreStrings: true, ignoreTemplateLiterals: true }],
+    "comma-dangle": ["error", "always-multiline"],
+
+    "prefer-const": "error",
+    "eqeqeq": ["error", "smart"],
+    "curly": ["error", "all"],
+
+    "import/no-unresolved": "off",
+    "import/order": ["warn", {
+      "groups": ["builtin", "external", "internal", ["parent", "sibling", "index"]],
+      "newlines-between": "always",
+      "alphabetize": { order: "asc", caseInsensitive: true },
+    }],
+
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+
+    "new-cap": ["error", { capIsNew: false, newIsCap: true }],
   },
 };
