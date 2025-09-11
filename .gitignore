@@ -23,6 +23,8 @@
 
 # Firebase
 .firebase/
+.firebase
+firebase-debug.log
 
 # IDEs and editors
 .idea/
