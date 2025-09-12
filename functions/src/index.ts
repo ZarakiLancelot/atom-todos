@@ -7,6 +7,10 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
+import process from "node:process";
+
+try { process.loadEnvFile?.(); } catch { /* Ignore */ }
+
 import { setGlobalOptions } from "firebase-functions";
 import { onRequest } from "firebase-functions/v2/https";
 
