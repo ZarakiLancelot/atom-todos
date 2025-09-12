@@ -1,7 +1,5 @@
 {
   "firestore": {
-    "database": "(default)",
-    "location": "us-central1",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
@@ -17,8 +15,7 @@
         "*.local"
       ],
       "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
+        "node functions/node_modules/typescript/bin/tsc -p functions/tsconfig.json"
       ]
     }
   ],

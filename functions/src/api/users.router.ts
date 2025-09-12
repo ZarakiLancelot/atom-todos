@@ -1,24 +1,28 @@
 import { Router } from "express";
-import jwt from "jsonwebtoken";
 import { z } from "zod";
 
 import { db } from "../config/firebase";
-
+import { signToken } from "../infra/security/jwt";
 
 const router = Router();
-const bodySchema = z.object({ email: z.email() });
+const emailSchema = z.object({ email: z.email() });
 
-const JWT_SECRET = process.env.JWT_SECRET ?? "dev-secret";
-
+/**
+ * POST /auth/login-or-create
+ * Body: { email: string }
+ * Response: Si existe, { user: { id: string, email: string }, token: string }
+ *          Si no existe, crea el usuario y responde igual.
+ */
 router.post("/login-or-create", async (req, res) => {
   try {
-    const parsed = bodySchema.safeParse(req.body);
+    const parsed = emailSchema.safeParse(req.body);
     if (!parsed.success) {return res.status(400).json({ error: "Invalid email" });}
 
     const { email } = parsed.data;
-    const snap = await db.collection("users").where("email", "==", email).limit(1).get();
 
+    const snap = await db.collection("users").where("email", "==", email).limit(1).get();
     let userId: string;
+
     if (snap.empty) {
       const ref = await db.collection("users").add({ email, createdAt: Date.now() });
       userId = ref.id;
@@ -26,10 +30,11 @@ router.post("/login-or-create", async (req, res) => {
       userId = snap.docs[0].id;
     }
 
-    const token = jwt.sign({ sub: userId, email }, JWT_SECRET, { expiresIn: "7d" });
+    const token = signToken(userId, email);
     return res.json({ user: { id: userId, email }, token });
-  } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
+  } catch (_err) {
+    console.error("Error in /auth/login-or-create:", _err);
+    return res.status(500).json({ error: "Internal server error", details: _err instanceof Error ? _err.message : String(_err) });
   }
 });
 
