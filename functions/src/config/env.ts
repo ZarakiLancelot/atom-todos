@@ -3,7 +3,7 @@ export function getJwtSecret(): string {
 }
 
 export function getAllowedOrigins(): string[] {
-  const rawValue = process.env.ALLOWED_ORIGIN ?? "http://localhost:4200";
+  const rawValue = process.env.ALLOWED_ORIGIN ?? "https://api-xbmg4jcj7q-uc.a.run.app";
   return String(rawValue)
     .split(",")
     .map(s => s.trim())

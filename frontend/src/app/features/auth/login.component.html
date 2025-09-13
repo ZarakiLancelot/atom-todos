@@ -1,0 +1,27 @@
+<section class="auth">
+  <h1>Iniciar sesión</h1>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    [attr.aria-busy]="loading ? 'true' : null"
+  >
+    <label for="email">Correo</label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="tu@email.com"
+      [attr.aria-invalid]="email.touched && email.invalid ? true : null"
+      [readonly]="loading"
+    />
+
+    @if (email.touched && email.invalid) {
+      <small class="err">Ingresa un correo válido</small>
+    }
+
+    <button type="submit" [disabled]="form.invalid || loading">
+      {{ loading ? 'Procesando...' : 'Continuar' }}
+    </button>
+  </form>
+</section>
