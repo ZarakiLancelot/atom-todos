@@ -1,8 +1,9 @@
 {
   "/api": {
-    "target": "http://127.0.0.1:5001/atom-todos/us-central1",
-    "secure": false,
+    "target": "https://api-xbmg4jcj7q-uc.a.run.app",
+    "secure": true,
     "changeOrigin": true,
+    "logLevel": "info",
     "pathRewrite": { "^/api": "" }
   }
 }

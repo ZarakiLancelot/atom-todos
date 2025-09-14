@@ -1,0 +1,48 @@
+<form
+  class="card form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  novalidate
+>
+  <label class="sr-only" for="task-title">Título</label>
+  <input
+    id="task-title"
+    type="text"
+    placeholder="Título"
+    formControlName="title"
+    [attr.aria-invalid]="titleCtrl.invalid && titleCtrl.touched"
+    [attr.aria-describedby]="titleCtrl.invalid ? 'title-error' : null"
+  />
+
+  <div
+    id="title-error"
+    class="error"
+    *ngIf="titleCtrl.invalid && titleCtrl.touched"
+  >
+    <span *ngIf="titleCtrl.errors?.['required']">El título es obligatorio.</span>
+    <span *ngIf="titleCtrl.errors?.['maxlength']">Máximo 120 caracteres.</span>
+  </div>
+
+  <label class="sr-only" for="task-description">Descripción</label>
+  <textarea
+    id="task-description"
+    rows="3"
+    placeholder="Descripción"
+    formControlName="description"
+  ></textarea>
+
+  <div class="actions">
+    <button type="submit" [disabled]="form.invalid">
+      {{ taskId ? 'Guardar' : 'Agregar' }}
+    </button>
+
+    <button
+      type="button"
+      *ngIf="taskId"
+      (click)="onCancel()"
+      class="btn-secondary"
+    >
+      Cancelar
+    </button>
+  </div>
+</form>

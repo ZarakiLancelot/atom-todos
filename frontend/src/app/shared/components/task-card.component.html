@@ -1,0 +1,37 @@
+<article class="card item" attr.aria-labelledby="task-title-{{task.id}}">
+  <header class="row">
+    <label class="row" [attr.for]="'task-check-' + task.id">
+      <input
+        id="task-check-{{task.id}}"
+        type="checkbox"
+        [checked]="task.completed"
+        (change)="statusChange.emit($any($event.target).checked)"
+        [attr.aria-checked]="task.completed"
+        [attr.aria-label]="'Marcar como ' + (task.completed ? 'pendiente' : 'completada')"
+      />
+      <strong
+        [id]="'task-title-' + task.id"
+        [class.line]="task.completed"
+      >
+        {{ task.title }}
+      </strong>
+    </label>
+
+    <small [title]="task.createdAt | date:'full'">
+      {{ task.createdAt | date:'short' }}
+    </small>
+  </header>
+
+  @if (task.description) {
+    <p class="desc">{{ task.description }}</p>
+  }
+
+  <footer class="row">
+    <button type="button" (click)="edit.emit()" class="btn">
+      Editar
+    </button>
+    <button type="button" (click)="remove.emit()" class="btn danger" title="Eliminar tarea">
+      Eliminar
+    </button>
+  </footer>
+</article>

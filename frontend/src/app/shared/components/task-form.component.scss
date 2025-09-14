@@ -1,0 +1,70 @@
+.form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.card {
+  padding: 1rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 0.5rem;
+  outline: none;
+
+  &:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.15);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: #e74c3c;
+  }
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+button {
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 0;
+  cursor: pointer;
+  background: #6c63ff;
+  color: #fff;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  background: #e9ecef;
+  color: #111;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
