@@ -1,7 +1,7 @@
 <form
   class="card form"
   [formGroup]="form"
-  (ngSubmit)="save()"
+  (ngSubmit)="onSubmit()"
   novalidate
 >
   <label class="sr-only" for="task-title">Título</label>
@@ -39,7 +39,7 @@
     <button
       type="button"
       *ngIf="taskId"
-      (click)="cancel()"
+      (click)="onCancel()"
       class="btn-secondary"
     >
       Cancelar

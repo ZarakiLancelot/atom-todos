@@ -37,11 +37,9 @@ export class TasksComponent implements OnInit {
     console.log('Form submitted with:', val);
     try {
       if (this.editTask()) {
-        console.log('Editing task:', this.editTask()!.id);
         await this.tasksSvc.update(this.editTask()!.id, val);
         this.editTask.set(null);
       } else {
-        console.log('Creating new task');
         await this.tasksSvc.create(val);
       }
     } catch (err) {

@@ -20,13 +20,11 @@ export class TasksService {
 
   private get userId(): string {
     const userId = this.auth.session()?.userId ?? '';
-    console.log('TasksService - userId:', userId);
     return userId;
   }
 
   private get baseUrl(): string {
     const environmentApiUrl = `${environment.apiUrl}/users/${this.userId}/todos`;
-    console.log('TasksService - baseUrl:', environmentApiUrl);
     return environmentApiUrl;
   }
 
@@ -37,25 +35,29 @@ export class TasksService {
 
   async load() {
     if (!this.userId) return;
-    console.log('[TasksService] GET', this.baseUrl);
     const data = await firstValueFrom(this.http.get<Task[]>(this.baseUrl));
     this.listSignal.set(data ?? []);
   }
 
   async create(dto: Pick<Task,'title'|'description'>) {
-    console.log('[TasksService] POST', this.baseUrl, dto);
     const created = await firstValueFrom(this.http.post<Task>(this.baseUrl, { ...dto, completed: false }));
     if (created) this.listSignal.update(arr => [created, ...arr]);
   }
 
   async update(id: string, changes: Partial<Task>) {
-    console.log('[TasksService] PUT', `${this.baseUrl}/${id}`, changes);
-    const updated = await firstValueFrom(this.http.put<Task>(`${this.baseUrl}/${id}`, changes));
-    if (updated) this.listSignal.update(arr => arr.map(t => t.id === id ? updated : t));
+    const updated = await firstValueFrom(
+      this.http.put<Task>(`${this.baseUrl}/${id}`, changes)
+    );
+
+    this.listSignal.update(arr =>
+      arr.map( t => {
+        if (t.id !== id) return t;
+        return { ...t, ...changes, ...(updated ?? {}) };
+      })
+    );
   }
 
   async remove(id: string) {
-    console.log('[TasksService] DELETE', `${this.baseUrl}/${id}`);
     await firstValueFrom(this.http.delete(`${this.baseUrl}/${id}`));
     this.listSignal.update(arr => arr.filter(t => t.id !== id));
   }

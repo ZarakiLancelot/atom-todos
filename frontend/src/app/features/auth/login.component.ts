@@ -26,8 +26,6 @@ export class LoginComponent {
 
     this.loading = true;
     try {
-      const result = await this.auth.loginOrCreate(this.email.value);
-      console.log(`User ${result}`);
       await this.router.navigateByUrl('/tasks');
     } catch (error) {
       console.error('Login error', error);
