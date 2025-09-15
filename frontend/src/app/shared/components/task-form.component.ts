@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 interface TaskLike { id?: string; title?: string; description?: string };
@@ -7,9 +11,9 @@ interface TaskLike { id?: string; title?: string; description?: string };
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './task-form.component.html',
-  styleUrl: './task-form.component.scss'
+  styleUrls: ['./task-form.component.scss']
 })
 export class TaskFormComponent {
   @Input() set task(value: TaskLike | null) {
@@ -18,6 +22,10 @@ export class TaskFormComponent {
       title: value?.title ?? '',
       description: value?.description ?? ''
     }, { emitEvent: false });
+
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+    this.form.updateValueAndValidity({ emitEvent: false });
   }
 
   @Output() submitted = new EventEmitter<{ title: string; description?: string}>();
@@ -36,7 +44,6 @@ export class TaskFormComponent {
   get descriptionCtrl() { return this.form.controls.description; }
 
   async onCancel() {
-    this.form.reset();
     this.cancelled.emit();
   }
 
@@ -49,7 +56,7 @@ export class TaskFormComponent {
       this.submitted.emit(payload);
 
       if (!this.taskId) {
-        this.form.reset();
+        this.form.reset({ title: '', description: '' }, { emitEvent: false });
       }
     } catch (error) {
       console.error('Error submitting form:', error);

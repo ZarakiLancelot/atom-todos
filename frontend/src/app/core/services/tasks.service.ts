@@ -50,10 +50,7 @@ export class TasksService {
     );
 
     this.listSignal.update(arr =>
-      arr.map( t => {
-        if (t.id !== id) return t;
-        return { ...t, ...changes, ...(updated ?? {}) };
-      })
+      arr.map( t => (t.id !== id ? t : ({ ...t, ...changes, ...(updated ?? {}) })))
     );
   }
 

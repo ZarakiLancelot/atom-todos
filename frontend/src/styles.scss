@@ -1,4 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.spacer {
+  flex: 1 1 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.muted {
+  color: #6b7280;
+}

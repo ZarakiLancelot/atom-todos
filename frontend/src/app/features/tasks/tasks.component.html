@@ -1,30 +1,38 @@
-<header class="toolbar">
-  <h1>Mis Tareas</h1>
-  <button type="button" (click)="goLogin()">Volver al inicio de sesión</button>
-</header>
-
-<section class="grid">
-  <app-task-form
-    [task]="editTask()"
-    (submitted)="onSubmit($event)"
-    (cancel)="editTask.set(null)">
-  </app-task-form>
-
-  <div class="list" [attr.aria-busy]="loading()">
-    @if (loading()) {
-      <p class="muted">Cargando...</p>
-    } @else {
-      @for (t of tasks(); track t.id) {
-        <app-task-card
-          [task]="t"
-          (statusChange)="toggle(t.id, $event)"
-          (edit)="editTask.set(t)"
-          (remove)="remove(t.id)">
-        </app-task-card>
-      }
-      @if (!tasks().length) {
-        <p class="muted">No hay tareas aún.</p>
-      }
-    }
+<mat-toolbar color="primary" class="toolbar">
+  <div class="toolbar__content">
+    <span class="title">MIS TAREAS</span>
+    <span class="spacer"></span>
+    <button mat-button (click)="goLogin()">
+      <mat-icon>logout</mat-icon>
+      Cerrar sesión
+    </button>
   </div>
-</section>
+</mat-toolbar>
+
+<div class="page">
+  <div class="grid">
+    <app-task-form
+      [task]="editTask()"
+      (submitted)="onSubmit($event)"
+      (cancel)="editTask.set(null)"
+    ></app-task-form>
+
+    <div class="list" [attr.aria-busy]="loading()">
+      @if (loading()) {
+        <p class="muted">Cargando...</p>
+      } @else {
+        @for (t of tasks(); track t.id) {
+          <app-task-card
+            [task]="t"
+            (statusChange)="toggle(t.id, $event)"
+            (edit)="editTask.set(t)"
+            (remove)="remove(t.id)"
+          ></app-task-card>
+        }
+        @if (!tasks().length) {
+          <p class="muted">No hay tareas aún.</p>
+        }
+      }
+    </div>
+  </div>
+</div>
