@@ -1,37 +1,40 @@
-<article class="card item" attr.aria-labelledby="task-title-{{task.id}}">
-  <header class="row">
-    <label class="row" [attr.for]="'task-check-' + task.id">
-      <input
-        id="task-check-{{task.id}}"
-        type="checkbox"
+<mat-card class="task-card" [attr.aria-labelledby]="'task-title-' + task.id">
+  <mat-card-content>
+    <div class="row">
+      <mat-checkbox
         [checked]="task.completed"
-        (change)="statusChange.emit($any($event.target).checked)"
+        (change)="statusChange.emit($event.checked)"
         [attr.aria-checked]="task.completed"
         [attr.aria-label]="'Marcar como ' + (task.completed ? 'pendiente' : 'completada')"
-      />
-      <strong
-        [id]="'task-title-' + task.id"
-        [class.line]="task.completed"
-      >
-        {{ task.title }}
-      </strong>
-    </label>
+      ></mat-checkbox>
 
-    <small [title]="task.createdAt | date:'full'">
-      {{ task.createdAt | date:'short' }}
-    </small>
-  </header>
+      <div class="content">
+        <div class="title-row">
+          <strong
+            class="title"
+            [id]="'task-title-' + task.id"
+            [class.is-completed]="task.completed"
+          >
+            {{ task.title }}
+          </strong>
+          <span class="meta" [title]="task.createdAt | date:'full'">
+            {{ task.createdAt | date:'short' }}
+          </span>
+        </div>
 
-  @if (task.description) {
-    <p class="desc">{{ task.description }}</p>
-  }
+        <div class="desc" *ngIf="task.description">
+          {{ task.description }}
+        </div>
+      </div>
 
-  <footer class="row">
-    <button type="button" (click)="edit.emit()" class="btn">
-      Editar
-    </button>
-    <button type="button" (click)="remove.emit()" class="btn danger" title="Eliminar tarea">
-      Eliminar
-    </button>
-  </footer>
-</article>
+      <div class="actions">
+        <button mat-stroked-button color="primary" (click)="edit.emit()" aria-label="Editar tarea">
+          Editar
+        </button>
+        <button mat-stroked-button color="warn" (click)="remove.emit()" aria-label="Eliminar tarea">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,48 +1,54 @@
-<form
-  class="card form"
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()"
-  novalidate
->
-  <label class="sr-only" for="task-title">Título</label>
-  <input
-    id="task-title"
-    type="text"
-    placeholder="Título"
-    formControlName="title"
-    [attr.aria-invalid]="titleCtrl.invalid && titleCtrl.touched"
-    [attr.aria-describedby]="titleCtrl.invalid ? 'title-error' : null"
-  />
+<mat-card class="task-form">
+  <mat-card-header class="task-form__header">
+    <mat-card-title>
+      {{ taskId ? 'Editar Tarea' : 'Agregar Tarea' }}
+    </mat-card-title>
+  </mat-card-header>
 
-  <div
-    id="title-error"
-    class="error"
-    *ngIf="titleCtrl.invalid && titleCtrl.touched"
-  >
-    <span *ngIf="titleCtrl.errors?.['required']">El título es obligatorio.</span>
-    <span *ngIf="titleCtrl.errors?.['maxlength']">Máximo 120 caracteres.</span>
-  </div>
+  <mat-card-content>
+    <form class="task-form__form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <mat-form-field appearance="outline" class="f-width">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" />
+        <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('required')">
+          El título es obligatorio
+        </mat-error>
+        <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('minlength')">
+          Mínimo 3 caracteres
+        </mat-error>
+        <mat-error *ngIf="titleCtrl.touched && titleCtrl.hasError('maxlength')">
+          Máximo 120 caracteres
+        </mat-error>
+      </mat-form-field>
 
-  <label class="sr-only" for="task-description">Descripción</label>
-  <textarea
-    id="task-description"
-    rows="3"
-    placeholder="Descripción"
-    formControlName="description"
-  ></textarea>
+      <mat-form-field appearance="outline" class="f-width">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput rows="4" formControlName="description"></textarea>
+        <mat-error *ngIf="descriptionCtrl.touched && descriptionCtrl.hasError('maxlength')">
+          Máximo 500 caracteres
+        </mat-error>
+      </mat-form-field>
 
-  <div class="actions">
-    <button type="submit" [disabled]="form.invalid">
-      {{ taskId ? 'Guardar' : 'Agregar' }}
-    </button>
+      <div class="actions">
+        <button
+          mat-stroked-button
+          type="button"
+          *ngIf="taskId"
+          (click)="onCancel()"
+          class="btn-secondary"
+        >
+          Cancelar
+        </button>
 
-    <button
-      type="button"
-      *ngIf="taskId"
-      (click)="onCancel()"
-      class="btn-secondary"
-    >
-      Cancelar
-    </button>
-  </div>
-</form>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || submitting"
+        >
+          {{ taskId ? 'Guardar' : 'Agregar' }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

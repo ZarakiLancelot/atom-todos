@@ -13,6 +13,12 @@ const todoSchema = z.object({
   completed: z.boolean().optional().default(false),
 });
 
+const todoUpdateSchema = z.object({
+  title: z.string().min(1).optional(),
+  description: z.string().optional(),
+  completed: z.boolean().optional(),
+});
+
 /**
  * GET /users/:userId/todos
  * Response: [{ id: string, title: string, description: string, completed: boolean, createdAt: number }]
@@ -52,12 +58,17 @@ router.post("/:userId/todos", async (req, res) => {
  */
 router.put("/:userId/todos/:todoId", async (req, res) => {
   const { userId, todoId } = req.params;
-  const parsed = todoSchema.partial().safeParse(req.body);
+  const parsed = todoUpdateSchema.safeParse(req.body);
   if (!parsed.success) {return res.status(400).json({ error: "Invalid payload" });}
 
+  const changes = Object.fromEntries(
+    Object.entries(parsed.data).filter(([_, v]) => v !== undefined),
+  );
+
   const docRef = db.collection("users").doc(userId).collection("todos").doc(todoId);
-  await docRef.update(parsed.data);
+  await docRef.update(changes);
   const doc = await docRef.get();
+
   return res.json({ id: doc.id, ...doc.data() });
 });
 

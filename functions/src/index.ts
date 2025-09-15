@@ -7,11 +7,8 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import process from "node:process";
-
-try { process.loadEnvFile?.(); } catch { /* Ignore */ }
-
 import { setGlobalOptions } from "firebase-functions";
+import { defineSecret } from "firebase-functions/params";
 import { onRequest } from "firebase-functions/v2/https";
 
 // Start writing functions
@@ -29,6 +26,8 @@ import { onRequest } from "firebase-functions/v2/https";
 // this will be the maximum concurrent request count.
 setGlobalOptions({ maxInstances: 10 });
 
+const JWT_SECRET = defineSecret("JWT_SECRET");
+
 // export const helloWorld = onRequest((request, response) => {
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
@@ -36,4 +35,4 @@ setGlobalOptions({ maxInstances: 10 });
 
 import app from "./app";
 
-export const api = onRequest({ region: "us-central1" }, app);
+export const api = onRequest({ region: "us-central1", secrets: [JWT_SECRET] }, app);
