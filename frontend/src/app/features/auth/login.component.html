@@ -11,7 +11,7 @@
         <form
           [formGroup]="form"
           (ngSubmit)="onSubmit()"
-          [attr.aria-busy]="loading ? 'true' : null"
+          [attr.aria-busy]="loading() === true ? 'true' : null"
           autocomplete="off"
         >
           <mat-form-field appearance="outline" class="w-full">
@@ -23,8 +23,8 @@
           </mat-form-field>
 
           <div class="actions">
-            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
-              {{ loading ? 'Procesando...' : 'Continuar' }}
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading()">
+              {{ loading() ? 'Procesando...' : 'Continuar' }}
             </button>
           </div>
         </form>
@@ -32,3 +32,13 @@
     </mat-card>
   </div>
 </section>
+
+<dialog #confirmDialog (close)="onDialogClose($event)">
+  <h3>Usuario no encontrado</h3>
+  <p>¿Deseas crear una nueva cuenta con este correo?</p>
+
+  <form method="dialog" class="actions">
+    <button value="cancel" mat-button>Cancelar</button>
+    <button value="ok" mat-raised-button color="primary">Crear cuenta</button>
+  </form>
+</dialog>
