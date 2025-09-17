@@ -1,10 +1,36 @@
 .auth {
+  max-width: 400px;
   place-items: center;
-  margin: 4rem 0;
-}
+  margin: 4rem auto;
+  padding: 1.5rem;
 
-h1 {
-  text-transform: uppercase;
+  form {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  input {
+    padding: 0.6rem 0.7rem;
+  }
+
+  h1 {
+    text-transform: uppercase;
+  }
+
+  button {
+    border: 0;
+    background: #3F51B5;
+    color: #FFF;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
 }
 
 :host {
@@ -34,4 +60,31 @@ h1 {
   justify-content: flex-end;
   gap: 8px;
   margin-top: 8px;
+}
+
+dialog {
+  border: 0;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+  max-width: 420px;
+
+  h3 { margin: 0 0 .25rem; }
+  p  { margin: 0 0 1rem; color: #374151; }
+
+  .actions {
+    display: flex;
+    gap: .5rem;
+    justify-content: flex-end;
+
+    button {
+      border: 0;
+      padding: .5rem .8rem;
+      border-radius: .5rem;
+      cursor: pointer;
+    }
+
+    button[value="cancel"] { background: #e5e7eb; }
+    button[value="ok"]     { background: #303F9F; color: white; }
+  }
 }

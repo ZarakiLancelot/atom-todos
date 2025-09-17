@@ -13,8 +13,8 @@ const emailSchema = z.object({ email: z.email() });
  *           400 si no se provee email
  *           404 si no existe
  */
-router.get("/users/find", async (req, res) => {
-  const email = String(req.query.email ?? "").toLowerCase();
+router.get("/find", async (req, res) => {
+  const email = String(req.query.email ?? "").toLowerCase().trim();
   if (!email) {
     return res.status(400).json({ error: "email required" });
   }
