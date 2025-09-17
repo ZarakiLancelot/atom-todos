@@ -4,14 +4,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from './auth.service';
 import { firstValueFrom } from 'rxjs';
 
-export interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  completed: boolean;
-  createdAt: number;
-  userId: string;
-}
+import { Task } from '../models/task.model';
 
 @Injectable({ providedIn: 'root' })
 export class TasksService {
@@ -39,7 +32,7 @@ export class TasksService {
     this.listSignal.set(data ?? []);
   }
 
-  async create(dto: Pick<Task,'title'|'description'>) {
+  async create(dto: Pick<Task,'title' | 'description'>) {
     const created = await firstValueFrom(this.http.post<Task>(this.baseUrl, { ...dto, completed: false }));
     if (created) this.listSignal.update(arr => [created, ...arr]);
   }

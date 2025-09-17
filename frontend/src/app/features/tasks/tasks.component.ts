@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { Task } from '../../core/models/task.model';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +13,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { TaskFormComponent } from '../../shared/components/task-form.component';
 import { TaskCardComponent } from '../../shared/components/task-card.component';
-import { TasksService, Task } from '../../core/services/tasks.service';
+import { TasksService } from '../../core/services/tasks.service';
 import { ConfirmDialog } from '../../shared/dialogs/confirm.dialog';
 
 @Component({

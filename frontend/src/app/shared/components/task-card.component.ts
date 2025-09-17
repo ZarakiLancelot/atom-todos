@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Task } from '../../core/services/tasks.service';
+import { Task } from '../../core/models/task.model';
 
 @Component({
   standalone: true,
